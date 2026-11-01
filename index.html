@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="BlockArena India — an independent Minecraft community hub for PvP learning, guides, creators and Indian players.">
+<title>BlockArena India — Minecraft PvP & Community</title>
+<style>
+:root {
+  --site-primary: #35d07f;
+  --site-secondary: #173a31;
+  --site-background: #081511;
+  --site-on-primary: #06130d;
+  --site-on-secondary: #effff7;
+  --site-on-background: #effff7;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --panel: #10231c;
+  --panel-2: #142d24;
+  --muted: #a5b8ad;
+  --line: rgba(199,255,222,.13);
+  --gold: #ffd166;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--site-background); color: var(--site-on-background); font-family: var(--site-font-body); }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+#app { min-height: 100vh; width: 100%; background-color: var(--site-background); overflow: hidden; }
+.container { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+.topbar { border-bottom: 1px solid var(--line); background: #0b1b14; position: sticky; top: 0; z-index: 20; backdrop-filter: blur(14px); }
+.nav { min-height: 72px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+.brand { display:flex; align-items:center; gap:11px; font-weight:900; letter-spacing:-.04em; font-size:19px; }
+.brand-mark { width:34px; height:34px; display:grid; place-items:center; background:var(--site-primary); color:var(--site-on-primary); border-radius:calc(9px * var(--site-radius-scale)); box-shadow: 0 5px 24px rgba(53,208,127,.22); }
+.brand small { display:block; color:var(--muted); font-size:9px; letter-spacing:.18em; text-transform:uppercase; margin-top:1px; }
+.navlinks { display:flex; gap:24px; align-items:center; color:#c2d2c9; font-size:13px; font-weight:650; }
+.navlinks a:hover { color:var(--site-primary); }
+.nav-cta, .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border:0; cursor:pointer; font-weight:800; border-radius:calc(10px * var(--site-radius-scale)); padding:12px 17px; transition:transform .18s, background .18s; }
+.nav-cta, .btn-primary { background:var(--site-primary); color:var(--site-on-primary); }
+.btn:hover, .nav-cta:hover { transform:translateY(-2px); }
+.btn-secondary { background:#203b30; color:#eafff2; border:1px solid var(--line); }
+.menu-toggle { display:none; border:1px solid var(--line); color:white; background:#14291f; padding:9px 12px; border-radius:9px; }
+.hero { position:relative; padding:88px 0 76px; background:radial-gradient(ellipse at 75% 18%, rgba(53,208,127,.18), transparent 35%), linear-gradient(135deg,#0b1c14 0%,#0a1712 62%,#10291d 100%); }
+.hero:before { content:""; position:absolute; inset:0; opacity:var(--site-decoration-opacity); pointer-events:none; background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px); background-size:36px 36px; mask-image:linear-gradient(to bottom,black,transparent); }
+.hero-grid { position:relative; display:grid; grid-template-columns:1.12fr .88fr; align-items:center; gap:54px; }
+.eyebrow { display:inline-flex; align-items:center; gap:8px; color:var(--site-primary); font-size:11px; font-weight:900; letter-spacing:.18em; text-transform:uppercase; }
+.pulse { width:7px; height:7px; border-radius:50%; background:var(--site-primary); box-shadow:0 0 0 5px rgba(53,208,127,.13); }
+h1,h2,h3 { font-family:var(--site-font-heading); letter-spacing:-.055em; line-height:1.06; }
+h1 { font-size:clamp(43px,6vw,72px); margin:20px 0 18px; max-width:720px; }
+h1 span { color:var(--site-primary); }
+.hero p { color:#b8c9bf; font-size:17px; line-height:1.75; max-width:610px; margin:0 0 27px; }
+.hero-actions { display:flex; flex-wrap:wrap; gap:12px; }
+.hero-note { margin-top:22px; color:#82998d; font-size:11px; }
+.pixel-scene { min-height:360px; border:1px solid rgba(158,255,194,.2); border-radius:22px; background:linear-gradient(145deg,#1a3c2c,#0d2118); position:relative; overflow:hidden; display:grid; place-items:center; box-shadow:0 30px 80px rgba(0,0,0,.28); }
+.pixel-scene:before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 50% 40%,rgba(53,208,127,.18),transparent 55%); }
+.block-art { position:relative; width:220px; height:220px; transform:rotate(-7deg); filter:drop-shadow(0 24px 18px rgba(0,0,0,.4)); }
+.block-top { position:absolute; top:0; left:38px; width:150px; height:90px; background:#70c86c; transform:skewY(-27deg) rotate(27deg); border:5px solid #b4ee87; }
+.block-front { position:absolute; left:30px; top:74px; width:160px; height:130px; background:linear-gradient(135deg,#8d5c35 0 28%,#68452e 28% 52%,#795035 52%); border:5px solid #493522; }
+.block-side { position:absolute; right:0; top:47px; width:55px; height:132px; background:#4e8f4b; transform:skewY(-27deg); border:5px solid #376d40; }
+.sword { position:absolute; width:15px; height:180px; background:linear-gradient(90deg,#d8f5ff,#65a6b4,#e5ffff); top:35px; right:38px; transform:rotate(37deg); border:3px solid #24454a; border-radius:3px; }
+.sword:after { content:""; position:absolute; width:43px; height:12px; background:#a97742; bottom:22px; left:-17px; border:3px solid #50351e; }
+.scene-label { position:absolute; bottom:18px; left:20px; right:20px; display:flex; justify-content:space-between; color:#b7d8c4; font-size:10px; letter-spacing:.14em; text-transform:uppercase; }
+.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:38px; max-width:550px; }
+.stat { padding:15px; border:1px solid var(--line); background:rgba(15,38,27,.65); border-radius:12px; }
+.stat strong { display:block; color:var(--site-primary); font-size:20px; }
+.stat span { color:#9fb3a6; font-size:10px; text-transform:uppercase; letter-spacing:.1em; }
+section { padding:76px 0; }
+.section-head { display:flex; justify-content:space-between; align-items:end; gap:25px; margin-bottom:30px; }
+.kicker { color:var(--site-primary); font-size:10px; font-weight:900; letter-spacing:.18em; text-transform:uppercase; }
+h2 { font-size:clamp(30px,4vw,45px); margin:10px 0 0; }
+.section-head p { color:var(--muted); line-height:1.7; max-width:470px; margin:0; font-size:14px; }
+.coach-section { background:#0c1b14; }
+.notice { border:1px solid rgba(255,209,102,.28); background:rgba(255,209,102,.07); color:#f8df9e; border-radius:12px; padding:14px 16px; font-size:12px; line-height:1.6; margin-bottom:22px; }
+.filters { display:flex; gap:9px; flex-wrap:wrap; margin:0 0 20px; }
+.filter { background:#152a20; color:#a9beb0; border:1px solid var(--line); border-radius:999px; padding:9px 14px; cursor:pointer; font-size:12px; font-weight:750; }
+.filter.active { color:#06130d; background:var(--site-primary); border-color:var(--site-primary); }
+.coach-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.coach-card { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px; display:flex; flex-direction:column; min-height:260px; transition:transform .2s,border .2s; }
+.coach-card:hover { transform:translateY(-4px); border-color:rgba(53,208,127,.48); }
+.avatar { width:45px; height:45px; display:grid; place-items:center; border-radius:13px; background:#204d37; color:#b9ffd2; font-weight:900; font-size:14px; margin-bottom:15px; }
+.card-top { display:flex; align-items:start; justify-content:space-between; gap:10px; }
+.tag { font-size:9px; text-transform:uppercase; letter-spacing:.1em; color:#c4e8d1; background:#1b3b2b; border:1px solid rgba(53,208,127,.17); border-radius:999px; padding:6px 8px; }
+.coach-card h3 { font-size:20px; margin:0 0 7px; }
+.coach-card p { color:var(--muted); font-size:12px; line-height:1.65; margin:0 0 15px; }
+.coach-meta { display:flex; flex-wrap:wrap; gap:7px; margin:0 0 16px; }
+.coach-meta span { color:#9db4a5; font-size:10px; background:#172c22; padding:6px 8px; border-radius:7px; }
+.card-link { margin-top:auto; color:var(--site-primary); font-size:12px; font-weight:850; }
+.card-link:hover { text-decoration:underline; }
+.empty-note { display:none; color:var(--muted); font-size:13px; padding:22px; border:1px dashed var(--line); border-radius:12px; }
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+.info-panel { background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:25px; }
+.info-panel h3 { font-size:23px; margin:0 0 12px; }
+.info-panel p { color:var(--muted); font-size:13px; line-height:1.8; margin:0; }
+.topic-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:13px; margin-top:22px; }
+.topic { background:#11271c; border:1px solid var(--line); padding:18px; border-radius:13px; }
+.topic b { display:block; margin:10px 0 6px; font-size:13px; }
+.topic span { color:var(--muted); font-size:11px; line-height:1.55; }
+.topic-icon { font-size:23px; }
+.guides { background:#0c1b14; }
+.guide-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; }
+.guide { background:var(--panel); border:1px solid var(--line); border-radius:15px; padding:21px; }
+.guide small { color:var(--site-primary); text-transform:uppercase; font-weight:900; letter-spacing:.12em; font-size:9px; }
+.guide h3 { font-size:19px; margin:12px 0 8px; }
+.guide p { color:var(--muted); font-size:12px; line-height:1.7; }
+.guide details { border-top:1px solid var(--line); padding-top:12px; margin-top:12px; color:#d5e7dc; font-size:12px; }
+.guide summary { cursor:pointer; font-weight:800; color:var(--site-primary); }
+.community { background:linear-gradient(135deg,#173c2b,#0e2419); border:1px solid rgba(53,208,127,.22); border-radius:20px; padding:32px; display:grid; grid-template-columns:1fr auto; align-items:center; gap:25px; }
+.community h2 { font-size:34px; }
+.community p { color:#b7d1c0; font-size:13px; line-height:1.7; max-width:620px; }
+.source-list { display:flex; flex-wrap:wrap; gap:10px; margin-top:15px; }
+.source-list a { font-size:11px; color:#d7f7e2; border-bottom:1px solid rgba(215,247,226,.35); }
+footer { padding:30px 0; border-top:1px solid var(--line); color:#82988b; font-size:11px; }
+.footer-row { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+.modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:50; display:none; align-items:center; justify-content:center; padding:20px; }
+.modal-backdrop.show { display:flex; }
+.modal { width:min(510px,100%); background:#10231a; border:1px solid rgba(53,208,127,.35); border-radius:18px; padding:25px; box-shadow:0 25px 90px rgba(0,0,0,.5); }
+.modal h3 { font-size:25px; margin:0 0 8px; }
+.modal p { color:var(--muted); font-size:12px; line-height:1.7; }
+.form-grid { display:grid; gap:11px; margin:17px 0; }
+.form-grid input,.form-grid select,.form-grid textarea { width:100%; padding:12px; color:#effff7; background:#091810; border:1px solid var(--line); border-radius:9px; outline:none; }
+.form-grid textarea { min-height:75px; resize:vertical; }
+.modal-actions { display:flex; gap:10px; justify-content:flex-end; }
+#toast { position:fixed; bottom:20px; left:50%; transform:translate(-50%,20px); background:#d7ffe5; color:#092015; border-radius:10px; padding:12px 16px; font-size:12px; font-weight:800; opacity:0; pointer-events:none; transition:.2s; z-index:70; }
+#toast.show { opacity:1; transform:translate(-50%,0); }
+@media (max-width:850px) { .hero-grid { grid-template-columns:1fr; } .pixel-scene { min-height:290px; } .coach-grid,.guide-grid { grid-template-columns:repeat(2,1fr); } .topic-grid { grid-template-columns:repeat(2,1fr); } .section-head { align-items:start; flex-direction:column; } }
+@media (max-width:620px) { .container { width:min(100% - 28px,1160px); } .nav { min-height:64px; } .menu-toggle { display:block; } .navlinks { display:none; position:absolute; top:64px; left:0; right:0; padding:18px 22px; background:#0b1b14; border-bottom:1px solid var(--line); flex-direction:column; align-items:flex-start; } .navlinks.open { display:flex; } .nav-cta { display:none; } .hero { padding:62px 0 55px; } .hero p { font-size:15px; } .stats { gap:7px; } .stat { padding:11px; } .stat strong { font-size:17px; } .stat span { font-size:8px; } section { padding:58px 0; } .coach-grid,.guide-grid,.about-grid { grid-template-columns:1fr; } .topic-grid { grid-template-columns:repeat(2,1fr); } .community { grid-template-columns:1fr; padding:24px; } .community h2 { font-size:29px; } }
+</style>
+</head>
+<body>
+<div id="app">
+<header class="topbar"><div class="container nav">
+  <a class="brand" href="#home"><span class="brand-mark">▦</span><span>BLOCKARENA<small>INDIA · MINECRAFT HUB</small></span></a>
+  <button class="menu-toggle" id="menuToggle" aria-label="Open navigation">☰</button>
+  <nav class="navlinks" id="navlinks"><a href="#coaches">PvP Coaches</a><a href="#about">About Minecraft</a><a href="#guides">Guides</a><a href="#community">Community</a></nav>
+  <button class="nav-cta" id="applyTop">Become a coach ↗</button>
+</div></header>
+<main>
+<section class="hero" id="home"><div class="container hero-grid">
+  <div>
+    <div class="eyebrow"><span class="pulse"></span> Built for India's Minecraft players</div>
+    <h1>LEVEL UP YOUR<br><span>MINECRAFT PvP.</span></h1>
+    <p>Find PvP learning resources, discover Indian Minecraft creators, sharpen your game knowledge and connect with a growing block-loving community.</p>
+    <div class="hero-actions"><a class="btn btn-primary" href="#coaches">Explore PvP directory ↗</a><a class="btn btn-secondary" href="#guides">Explore guides</a></div>
+    <div class="hero-note">An independent fan-made community concept. Not affiliated with Mojang or Microsoft.</div>
+    <div class="stats"><div class="stat"><strong>India</strong><span>Community focus</span></div><div class="stat"><strong>Java + Bedrock</strong><span>Game editions</span></div><div class="stat"><strong>Learn</strong><span>Play smarter</span></div></div>
+  </div>
+  <div class="pixel-scene" aria-label="Original block and sword illustration"><div class="block-art"><div class="block-top"></div><div class="block-front"></div><div class="block-side"></div><div class="sword"></div></div><div class="scene-label"><span>Practice · Progress · Play</span><span>01 / India</span></div></div>
+</div></section>
+<section class="coach-section" id="coaches"><div class="container">
+  <div class="section-head"><div><div class="kicker">The main attraction</div><h2>Indian PvP coach directory</h2></div><p>Find skilled players and creators to learn from. Coach listings must be confirmed by the player before any paid lesson is offered.</p></div>
+  <div class="notice"><b>Transparency note:</b> Public Minecraft creators and tournament players are not automatically coaches. The names below are discovery leads only; their coaching availability, prices and credentials have not been verified. This directory does not claim they offer lessons.</div>
+  <div class="filters" id="filters"><button class="filter active" data-filter="all">All profiles</button><button class="filter" data-filter="pvp">PvP-focused channels</button><button class="filter" data-filter="creator">Minecraft creators</button><button class="filter" data-filter="event">Tournament players</button></div>
+  <div class="coach-grid" id="coachGrid">
+    <article class="coach-card" data-kind="pvp"><div class="card-top"><div class="avatar">IG</div><span class="tag">PvP-focused channel</span></div><h3>IGssyExtras</h3><p>An India-based Minecraft channel described in a channel directory as focusing on PvP challenges, duels and texture-pack reviews.</p><div class="coach-meta"><span>India</span><span>Java / PvP content</span></div><a class="card-link" href="https://channeldb.com/c/@igssyextras" target="_blank" rel="noopener">View public channel profile ↗</a></article>
+    <article class="coach-card" data-kind="pvp"><div class="card-top"><div class="avatar">SS</div><span class="tag">PvP + gameplay</span></div><h3>SyedSadiqGamings</h3><p>An India-based Minecraft creator whose public channel profile includes PvP, custom servers, survival and challenges.</p><div class="coach-meta"><span>India</span><span>Minecraft gameplay</span></div><a class="card-link" href="https://channeldb.com/c/@syedsadiqgamings" target="_blank" rel="noopener">View public channel profile ↗</a></article>
+    <article class="coach-card" data-kind="pvp"><div class="card-top"><div class="avatar">PG</div><span class="tag">MCPE PvP creator</span></div><h3>Panda Gamer YT</h3><p>A creator profile describes content around MCPE PvP, weapon tests and mod-based videos. Confirm identity and current activity before listing as a coach.</p><div class="coach-meta"><span>India audience reported</span><span>Bedrock / MCPE</span></div><a class="card-link" href="https://www.youtube.com/results?search_query=Panda+Gamer+YT+Minecraft+PvP" target="_blank" rel="noopener">Find public videos ↗</a></article>
+    <article class="coach-card" data-kind="creator"><div class="card-top"><div class="avatar">PS</div><span class="tag">Minecraft creator</span></div><h3>Perzaan Gaming</h3><p>Indian Minecraft creator known for tutorials, server guides and gameplay. A possible community mentor lead, not a confirmed PvP coach.</p><div class="coach-meta"><span>India</span><span>Tutorials</span></div><a class="card-link" href="https://zyncx.in/creators/perzaan-sabzeh" target="_blank" rel="noopener">View creator profile ↗</a></article>
+    <article class="coach-card" data-kind="event"><div class="card-top"><div class="avatar">ST</div><span class="tag">PvP event winner</span></div><h3>Stebin S</h3><p>Listed as the first-place winner of a PvP tournament hosted by the ThamizhanCore community. Coaching status is not known.</p><div class="coach-meta"><span>Community tournament</span><span>India-based community</span></div><a class="card-link" href="https://thamizhancore.fun/" target="_blank" rel="noopener">View event community ↗</a></article>
+    <article class="coach-card" data-kind="event"><div class="card-top"><div class="avatar">JV</div><span class="tag">PvP event finalist</span></div><h3>Jeeva</h3><p>Listed as the second-place finisher in the same community PvP tournament. This is an event result, not a coaching endorsement.</p><div class="coach-meta"><span>Community tournament</span><span>India-based community</span></div><a class="card-link" href="https://thamizhancore.fun/" target="_blank" rel="noopener">View event community ↗</a></article>
+    <article class="coach-card" data-kind="event"><div class="card-top"><div class="avatar">PC</div><span class="tag">PvP event finalist</span></div><h3>PvP Cat</h3><p>Listed as the third-place finisher in the ThamizhanCore PvP tournament. Coaching availability and player details need confirmation.</p><div class="coach-meta"><span>Community tournament</span><span>India-based community</span></div><a class="card-link" href="https://thamizhancore.fun/" target="_blank" rel="noopener">View event community ↗</a></article>
+    <article class="coach-card" data-kind="creator"><div class="card-top"><div class="avatar">SP</div><span class="tag">Indian Minecraft creator</span></div><h3>SenpaiSpider</h3><p>Popular Indian Minecraft creator. Included as a creator to discover, not as a verified PvP coach or lesson provider.</p><div class="coach-meta"><span>India</span><span>Creator profile</span></div><a class="card-link" href="https://www.youtube.com/results?search_query=SenpaiSpider+Minecraft" target="_blank" rel="noopener">Find public videos ↗</a></article>
+    <article class="coach-card" data-kind="creator"><div class="card-top"><div class="avatar">DG</div><span class="tag">PvP community network</span></div><h3>DGNetwork community</h3><p>An Indian Minecraft network with PvP and minigames. A useful place to discover active players; individual coaching is not advertised here.</p><div class="coach-meta"><span>India</span><span>Java + Bedrock</span></div><a class="card-link" href="https://dgnetwork.in/about" target="_blank" rel="noopener">Visit network ↗</a></article>
+  </div>
+  <div class="empty-note" id="emptyNote">No profiles in this filter yet.</div>
+  <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn-primary" id="applyCoach">Apply to become a listed coach</button><a class="btn btn-secondary" href="https://minecraftindia.in/" target="_blank" rel="noopener">Explore Minecraft India community ↗</a></div>
+</div></section>
+<section id="about"><div class="container"><div class="section-head"><div><div class="kicker">More than just PvP</div><h2>Explore the Minecraft universe</h2></div><p>Minecraft is a sandbox game where players explore, build, craft, survive and create their own adventures. Here's a quick map of what the game offers.</p></div>
+  <div class="about-grid"><div class="info-panel"><h3>What is Minecraft?</h3><p>Minecraft is a sandbox game built around blocks and creativity. Players can gather resources, craft tools, build structures, explore different worlds and play with friends. The experience changes depending on the edition, game mode, server and player-created content.</p></div><div class="info-panel"><h3>Two popular editions</h3><p><b>Java Edition:</b> commonly played on Windows, macOS and Linux, with a large mod and server community.<br><br><b>Bedrock Edition:</b> available across supported consoles, phones, tablets and Windows, with cross-platform multiplayer on supported devices.</p></div></div>
+  <div class="topic-grid"><div class="topic"><div class="topic-icon">⚔️</div><b>PvP & Minigames</b><span>Duels, BedWars, SkyWars, practice arenas and fair-play competition.</span></div><div class="topic"><div class="topic-icon">🌲</div><b>Survival & SMP</b><span>Gather resources, build bases, explore and play in shared worlds.</span></div><div class="topic"><div class="topic-icon">🧱</div><b>Building & Redstone</b><span>Architecture, farms, mechanisms and creative projects.</span></div><div class="topic"><div class="topic-icon">🛠️</div><b>Mods & Resource Packs</b><span>Customise gameplay and visuals using trusted, compatible sources.</span></div></div>
+</div></section>
+<section class="guides" id="guides"><div class="container"><div class="section-head"><div><div class="kicker">Learn and improve</div><h2>Minecraft starter guides</h2></div><p>Short, beginner-friendly learning cards. Open each card to see a simple checklist.</p></div>
+<div class="guide-grid">
+ <article class="guide"><small>PvP fundamentals</small><h3>Build better fundamentals</h3><p>Good PvP starts with movement, awareness, timing and calm decision-making.</p><details><summary>Open learning checklist</summary><p>Practise movement in a safe training world, learn your chosen mode's rules, review your matches, and focus on one skill at a time. Use fair-play settings and avoid cheats.</p></details></article>
+ <article class="guide"><small>Game knowledge</small><h3>Know your equipment</h3><p>Understand your edition, game version, items and the rules of the server you join.</p><details><summary>Open learning checklist</summary><p>Check Java or Bedrock, confirm the server version, read its rules, and learn what each item does in that specific game mode.</p></details></article>
+ <article class="guide"><small>Community safety</small><h3>Play smart online</h3><p>Choose well-moderated communities and keep personal information private.</p><details><summary>Open safety checklist</summary><p>Never share passwords, home address, school details or private payment information. Ask a parent or guardian before joining unfamiliar communities or arranging paid sessions.</p></details></article>
+</div></div></section>
+<section id="community"><div class="container"><div class="community"><div><div class="kicker">Grow the Indian scene</div><h2>Are you an Indian PvP player?</h2><p>Help build a useful directory. Players can submit a public creator profile for review. A listing is only published after the player agrees and their skills, edition and contact method are checked.</p><div class="source-list"><a href="https://minecraftindia.in/" target="_blank" rel="noopener">Minecraft India ↗</a><a href="https://dgnetwork.in/about" target="_blank" rel="noopener">DGNetwork ↗</a><a href="https://thamizhancore.fun/" target="_blank" rel="noopener">ThamizhanCore ↗</a><a href="https://indianmc.in/about" target="_blank" rel="noopener">Indian MC Network ↗</a></div></div><button class="btn btn-primary" id="communityApply">Submit profile idea ↗</button></div></div></section>
+</main>
+<footer><div class="container footer-row"><span>© 2026 BlockArena India · Fan-made community concept</span><span>Minecraft is a trademark of Mojang Studios. Not affiliated with Mojang or Microsoft.</span></div></footer>
+</div>
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal"><h3 id="modalTitle">Coach / player profile interest</h3><p>This preview has no backend, so it cannot submit or store forms. Use this sample to plan the real application process with a parent or guardian.</p><form id="interestForm"><div class="form-grid"><input name="displayName" placeholder="Public Minecraft username" required><select name="edition" required><option value="">Choose edition</option><option>Java Edition</option><option>Bedrock Edition</option><option>Both</option></select><select name="role" required><option value="">What do you do?</option><option>PvP player interested in coaching</option><option>Creator / community player</option><option>Looking for a coach</option></select><textarea name="details" placeholder="PvP modes, experience, public channel link (optional)"></textarea></div><div class="modal-actions"><button type="button" class="btn btn-secondary" id="closeModal">Close</button><button type="submit" class="btn btn-primary">Preview submission</button></div></form></div></div>
+<div id="toast" role="status"></div>
+<script>
+const filterButtons = document.querySelectorAll('.filter');
+const cards = document.querySelectorAll('.coach-card');
+const emptyNote = document.getElementById('emptyNote');
+filterButtons.forEach(button => button.addEventListener('click', () => {
+  filterButtons.forEach(item => item.classList.remove('active'));
+  button.classList.add('active');
+  const filter = button.dataset.filter;
+  let visible = 0;
+  cards.forEach(card => {
+    const show = filter === 'all' || card.dataset.kind === filter;
+    card.style.display = show ? 'flex' : 'none';
+    if (show) visible++;
+  });
+  emptyNote.style.display = visible ? 'none' : 'block';
+}));
+const menuToggle = document.getElementById('menuToggle');
+const navlinks = document.getElementById('navlinks');
+menuToggle.addEventListener('click', () => navlinks.classList.toggle('open'));
+navlinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => navlinks.classList.remove('open')));
+const backdrop = document.getElementById('modalBackdrop');
+const openModal = () => backdrop.classList.add('show');
+const closeModal = () => backdrop.classList.remove('show');
+['applyTop','applyCoach','communityApply'].forEach(id => document.getElementById(id).addEventListener('click', openModal));
+document.getElementById('closeModal').addEventListener('click', closeModal);
+backdrop.addEventListener('click', event => { if (event.target === backdrop) closeModal(); });
+const toast = document.getElementById('toast');
+let toastTimer;
+document.getElementById('interestForm').addEventListener('submit', event => {
+  event.preventDefault();
+  closeModal();
+  toast.textContent = 'Demo only — no information was sent or saved.';
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+  event.target.reset();
+});
+</script>
+</body>
+</html>
